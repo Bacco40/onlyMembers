@@ -9,7 +9,6 @@ var logger = require('morgan');
 var flash = require('connect-flash');
 require('./controllers/passport')(passport);
 var compression = require('compression');
-var helmet = require('helmet');
 var indexRouter = require('./routes/index');
 
 
@@ -17,7 +16,7 @@ var app = express();
 
 //Set up mongoose connection
 var mongoose = require('mongoose');
-var mongoDB = process.env.MONGODB_URI ;
+var mongoDB = process.env.MONGODB_URI;
 mongoose.connect(mongoDB, { useNewUrlParser: true , useUnifiedTopology: true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -26,7 +25,6 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use(helmet());
 app.use(session({ secret: "catsarecoolbutforreal", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
