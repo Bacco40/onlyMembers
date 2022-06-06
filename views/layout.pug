@@ -1,0 +1,36 @@
+doctype html
+html(lang='en')
+  head
+    title onlyMembers
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    script(src="https://kit.fontawesome.com/25ee9e54cc.js" crossorigin="anonymous")
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    header
+      nav 
+        div(class="logoContainer")
+          a(class='homeLink' href="/")
+            i(class="fa-brands fa-mastodon")
+          h1(class="title") 
+            a(class='homeLink' href="/") onlyMembers
+        div(class="menuContainer")
+          input(type="checkbox" class="toggler")
+          div(class="hamburger")
+            div
+          div(class="menu")
+            if user
+              a(href=user.url)
+                img.mediumIcon(id="goToProfile" src=user.profile_pic)
+            div
+              div
+                ul
+                  li
+                    a(class="buttonMenu" href="/") Home
+                  block menu
+    main
+      block content
+    footer 
+      a(href="https://github.com/Bacco40" target="_blank" rel="noreferrer")
+          i(class="fa-brands fa-github" id="gitHub")
+      h4 Copyright © Matteo Bacchetti - The Odin Project 2022 

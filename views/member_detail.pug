@@ -1,0 +1,79 @@
+extends layout
+block menu
+  if user
+    if user.isMember
+      li
+        a(class="buttonMenu" href="/message/create") Add New Message
+      li
+        a(class="buttonMenu" href=`/member/${user.id}/update`) Update Profile
+      li
+        a(class="buttonMenu" href="/members") See Members
+    else
+      li
+        a(class="buttonMenu" href=`/member/${user.id}/upgrade`) Become Member
+    li
+      a(class="buttonMenu" id="logOut" href="/member/logout") Log Out
+  else
+    li
+      a(class="buttonMenu" href="/member/create") Sign Up
+    li
+      a(class="buttonMenu" href="/member/login") Log In
+
+block content
+  if user
+    h1.pageTitle=title
+    .memberProfile
+      .memberDetail
+        img.biggerIcon(src=member.profile_pic)
+        h2.memberName=member.username 
+        if user.id === member.id
+          div(id="btnEdit")
+            a(class="buttonMsg" href=`/member/${user.id}/update`) Edit &nbsp;&nbsp;
+              i(class="fa-solid fa-pen-to-square")
+      .memberDetail 
+        h2.detailTitle(id="profileM") Posts Created by #{member.username}:
+        .profileMessage 
+          for message in member_messages
+            div.messageDetail 
+              div.messageTop
+                div.messagePart
+                  h4.messageTitle=message.title 
+                  p.messageContent=message.message
+                div.messageBtn
+                  if user.id === message.creator.id || user.isAdmin === true
+                    li
+                      a(class="buttonMsg" href=`/message/${message.id}/delete`)
+                        i(class="fa-solid fa-trash-can")
+                    li
+                      a(class="buttonMsg" href=`/message/${message.id}/update`)
+                        i(class="fa-solid fa-pen-to-square")
+              div.messageAuthor
+                div
+                  a(href=message.creator.url)
+                    p.commentCreator By: #{member.username}
+                  p.messageContent Date: #{message.date_formatted}
+              hr
+              for comment in message.comments 
+                .actualComment 
+                  div
+                    a(href=comment.creator.url)
+                      img.iconSmall(src=comment.creator.profile_pic)
+                    p.commentCreator #{comment.creator.username}:
+                    p.messageContent=comment.comment
+                  if user.id === comment.creator.id 
+                    li
+                      a(class="buttonMsg" href=`/comment/${comment.id}/delete`)
+                        i(class="fa-solid fa-trash-can")
+                hr
+              if user.isMember
+                form.addComment(action=`/comment/${message.id}/create` method="POST")
+                  div
+                    label(for="comment")
+                      img.iconSmall(src=user.profile_pic)
+                    input.commentElement(id="comment" name="comment" placeholder="Add New Comment" type="text")
+                  button(class="buttonMsg" id='addBtn')
+                      i(class="fa-solid fa-paper-plane")
+                if errors
+                  if messageId === message.id
+                    for error in errors
+                      div(class="error")!= error.msg

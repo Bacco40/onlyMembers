@@ -1,0 +1,45 @@
+extends layout
+
+block menu
+  if user
+    if user.isMember
+      li
+        a(class="buttonMenu" href="/message/create") Add New Message
+      li
+        a(class="buttonMenu" href=`/member/${user.id}/update`) Update Profile
+      li
+        a(class="buttonMenu" href="/members") See Members
+    else
+      li
+        a(class="buttonMenu" href=`/member/${user.id}/upgrade`) Become Member
+    li
+      a(class="buttonMenu" id="logOut" href="/member/logout") Log Out
+  else
+    li
+      a(class="buttonMenu" href="/member/create") Sign Up
+    li
+      a(class="buttonMenu" href="/member/login") Log In
+
+block content 
+    h1.pageTitle= title 
+    div.formContainer
+      form(action="" method="POST")
+        div.formContent
+          label.formLabel(for="username") Username
+          input.formElement(id="username" name="username" placeholder="username" type="text" value=(undefined===member ? '' : member.username))
+          if !user
+            label.formLabel(for="password") Password
+            input.formElement(name="password" type="password")
+            label.formLabel(for="password") Confirm Password
+            input.formElement(name="confPassword" type="password")
+          label.formLabel Select Avatar :
+            div.formSubContent
+              for avatar in avatars
+                div(class="singleCheck")
+                  input.checkboxIcon(type='checkbox', name='avatar', id=avatar.pic, value=avatar.pic checked=(undefined!==member && member.profile_pic === avatar.pic ? true : false))
+                  label.iconLabel(for=avatar.pic)
+                    img.icon(src=avatar.pic)
+          if errors
+            for error in errors
+              div(class="error")!= error.msg
+          button.buttonMenu2= title

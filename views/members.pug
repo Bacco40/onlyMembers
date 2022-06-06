@@ -1,0 +1,36 @@
+extends layout
+block menu
+  if user
+    if user.isMember
+      li
+        a(class="buttonMenu" href="/message/create") Add New Message
+      li
+        a(class="buttonMenu" href=`/member/${user.id}/update`) Update Profile
+      li
+        a(class="buttonMenu" href="/members") See Members
+    else
+      li
+        a(class="buttonMenu" href=`/member/${user.id}/upgrade`) Become Member
+    li
+      a(class="buttonMenu" id="logOut" href="/member/logout") Log Out
+  else
+    li
+      a(class="buttonMenu" href="/member/create") Sign Up
+    li
+      a(class="buttonMenu" href="/member/login") Log In
+
+block content
+  if user
+    h1.pageTitle=title
+    h2.subTitle=members.length
+    .membersContainer 
+      for member in members 
+        .singleMember 
+          if user.isAdmin === true
+            .deleteMember
+              a(class="buttonMsg" href=`/member/${member.id}/delete`)
+                i(class="fa-solid fa-trash-can")
+          a(href=member.url)
+              img.biggerIcon(src=member.profile_pic)    
+          a(href=member.url)
+              p.commentCreator2=member.username

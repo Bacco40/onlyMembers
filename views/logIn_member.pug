@@ -1,0 +1,20 @@
+extends layout
+
+block menu
+  li
+    a(class="buttonMenu" href="/member/create") Sign Up
+  li
+    a(class="buttonMenu" href="/member/login") Log In
+
+block content 
+    h1.pageTitle= title 
+    div.formContainer
+      form(action="" method="POST")
+        div.formContent
+          label.formLabel(for="username") Username
+          input.formElement(name="username" placeholder="username" type="text")
+          label.formLabel(for="password") Password
+          input.formElement(name="password" type="password")
+          if message
+            p=message
+          button.buttonMenu2= title
