@@ -8,7 +8,7 @@ var MessageSchema = new Schema(
   {
     creator: {type: Schema.Types.ObjectId, ref: 'Member', required: true},
     title: {type: String, required: true, maxLength: 30},
-    message: {type: String, required: true, maxLength: 150},
+    message: {type: String, required: true, maxLength: 300},
     comments: [{type: Schema.Types.ObjectId, ref: 'Comment'}],
     date_of_creation: {type: Date, required: true, default: Date.now},
   }

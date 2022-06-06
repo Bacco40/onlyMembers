@@ -16,8 +16,8 @@ exports.message_create_get = function(req, res) {
 exports.message_create_post = [
 
     // Validate and sanitize fields.
-    body('title').trim().isLength({ min: 1 }).escape().withMessage('Title must be specified.'),
-    body('message').trim().isLength({ min: 1 }).escape().withMessage('Message must be specified.'),
+    body('title').trim().isLength({ min: 1, max:30}).escape().withMessage('Title must be specified, and must be maximum 30 character long.'),
+    body('message').trim().isLength({ min: 1, max:300}).escape().withMessage('Message must be specified, and must be maximum 300 character long.'),
 
     // Process request after validation and sanitization.
     (req, res, next) => {
